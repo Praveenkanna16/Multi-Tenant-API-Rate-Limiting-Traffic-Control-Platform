@@ -32,3 +32,4 @@ yarn-error.log*
 *.db-journal
 *.tsbuildinfo
 
+.vercel

@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { hashApiKey } from "@/lib/auth";
 import { rateLimiter, Algorithm } from "@/lib/rate-limiter";
 
+export const dynamic = "force-dynamic";
+
 async function handleGatewayRequest(req: NextRequest, { params }: { params: { path: string[] } }) {
   const start = performance.now();
 
