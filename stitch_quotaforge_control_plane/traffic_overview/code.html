@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuotaForge - Overview</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&amp;family=Geist:wght@100..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f8f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary": "#585e6c",
+                        "tertiary-fixed": "#ffdcc6",
+                        "inverse-surface": "#2e3132",
+                        "on-secondary-fixed-variant": "#414754",
+                        "secondary-fixed": "#dde2f3",
+                        "primary-fixed": "#d8e2ff",
+                        "secondary-fixed-dim": "#c1c6d7",
+                        "on-secondary-fixed": "#161c27",
+                        "primary-container": "#2170e4",
+                        "on-background": "#191c1e",
+                        "on-tertiary-container": "#fffbff",
+                        "background": "#f8f9fb",
+                        "outline": "#727785",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#edeef0",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#fefcff",
+                        "secondary-container": "#dde2f3",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-surface": "#191c1e",
+                        "surface-dim": "#d9dadc",
+                        "surface-container-highest": "#e1e2e4",
+                        "outline-variant": "#c2c6d6",
+                        "on-secondary-container": "#5e6473",
+                        "on-tertiary-fixed": "#311400",
+                        "surface-container-high": "#e7e8ea",
+                        "primary": "#0058be",
+                        "surface": "#f8f9fb",
+                        "inverse-on-surface": "#f0f1f3",
+                        "inverse-primary": "#adc6ff",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#b75b00",
+                        "on-primary-fixed": "#001a42",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "tertiary": "#924700",
+                        "surface-variant": "#e1e2e4",
+                        "surface-tint": "#005ac2",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-surface-variant": "#424754",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "container-padding": "24px",
+                        "unit": "4px",
+                        "nav-height": "64px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Geist"],
+                        "mono-base": ["Geist Mono"],
+                        "body-base": ["Inter"],
+                        "mono-sm": ["Geist Mono"],
+                        "headline-md": ["Geist"],
+                        "label-caps": ["Geist"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "mono-base": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-base": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "mono-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .glass-panel {
+                @apply bg-surface-container-lowest border border-outline-variant rounded relative overflow-hidden;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-base min-h-screen flex flex-col pt-nav-height pb-[44px]">
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-nav-height bg-surface-container-lowest border-b border-outline-variant">
+<div class="flex items-center gap-6 h-full">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">QuotaForge</span>
+<div class="hidden md:flex items-center gap-6 h-full ml-4">
+<a class="text-primary border-b-2 border-primary h-full flex items-center font-label-caps text-label-caps" href="#">Overview</a>
+<a class="text-secondary hover:text-on-surface h-full flex items-center font-label-caps text-label-caps transition-colors" href="#">Traffic</a>
+<a class="text-secondary hover:text-on-surface h-full flex items-center font-label-caps text-label-caps transition-colors" href="#">Tenants</a>
+<a class="text-secondary hover:text-on-surface h-full flex items-center font-label-caps text-label-caps transition-colors" href="#">Policies</a>
+<a class="text-secondary hover:text-on-surface h-full flex items-center font-label-caps text-label-caps transition-colors" href="#">Usage</a>
+<a class="text-secondary hover:text-on-surface h-full flex items-center font-label-caps text-label-caps transition-colors" href="#">Events</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<a class="text-secondary hover:text-on-surface font-label-caps text-label-caps transition-colors hidden sm:block" href="#">Documentation</a>
+<button class="text-secondary hover:text-on-surface cursor-pointer active:opacity-80 flex items-center justify-center w-8 h-8 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+</button>
+<button class="text-secondary hover:text-on-surface cursor-pointer active:opacity-80 flex items-center justify-center w-8 h-8 rounded-full hover:bg-surface-container-low transition-colors relative">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<div class="w-8 h-8 rounded bg-surface-variant border border-outline-variant overflow-hidden ml-2 cursor-pointer active:opacity-80">
+<img alt="User profile menu" class="w-full h-full object-cover" data-alt="A minimalist digital avatar depicting a stylized gear or node network in sharp blues and whites, professional dark mode aesthetic, clean lines, technical feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBe1JYQYG4yghw1IO18O2n_JHo17W_HlicQeumZwX1wwkuJbJ3cc_ukEWC0GqEr6BILuC7EcMJz4lC4X1Vvmf-cb9aals8RtZg3iP-YVj1HWTUoTjUUHqPAB7uvqFINxSBixb-eE19BoWRM6jIKv83TgPvN6WhCVa2YOugFWZIq3xysQ8-75V--SO-SaochANA80tuGYNbNBN2JE316qttyA0Oi4HDHI_jRWgrIka06RtA71eBaFcQa"/>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-[1440px] mx-auto px-container-padding py-stack-lg">
+<!-- Header Section -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-stack-md mb-stack-lg">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-1">API traffic overview</h1>
+<p class="font-body-base text-body-base text-secondary">Monitor request volume, quota consumption, rate-limit decisions, and gateway health.</p>
+</div>
+<div class="flex items-center gap-stack-sm">
+<div class="flex items-center border border-outline-variant rounded bg-surface-container-lowest px-3 py-1.5 h-8">
+<span class="w-2 h-2 rounded-full bg-[#10b981] mr-2"></span>
+<span class="font-mono-sm text-mono-sm text-on-surface mr-2">Production</span>
+<span class="material-symbols-outlined text-[14px] text-secondary">expand_more</span>
+</div>
+<div class="flex items-center border border-outline-variant rounded bg-surface-container-lowest px-3 py-1.5 h-8">
+<span class="material-symbols-outlined text-[14px] text-secondary mr-2">schedule</span>
+<span class="font-mono-sm text-mono-sm text-on-surface mr-2">Last 15 minutes</span>
+<span class="material-symbols-outlined text-[14px] text-secondary">expand_more</span>
+</div>
+</div>
+</header>
+<!-- KPI Grid -->
+<div class="grid grid-cols-2 md:grid-cols-5 gap-gutter mb-stack-lg">
+<div class="glass-panel p-4">
+<div class="font-label-caps text-label-caps text-secondary mb-2">Total Requests</div>
+<div class="flex items-baseline gap-2 mb-2">
+<span class="font-headline-md text-headline-md text-on-surface">184,291</span>
+<span class="font-mono-sm text-mono-sm text-[#10b981] bg-[#10b981]/10 px-1 rounded">+12.4%</span>
+</div>
+<!-- Simple Sparkline placeholder -->
+<div class="h-6 w-full flex items-end gap-[2px]">
+<div class="w-1/12 bg-outline-variant/30 h-1/3"></div>
+<div class="w-1/12 bg-outline-variant/30 h-1/2"></div>
+<div class="w-1/12 bg-outline-variant/30 h-2/3"></div>
+<div class="w-1/12 bg-outline-variant/30 h-1/2"></div>
+<div class="w-1/12 bg-outline-variant/30 h-3/4"></div>
+<div class="w-1/12 bg-outline-variant/30 h-full"></div>
+<div class="w-1/12 bg-outline-variant/30 h-2/3"></div>
+<div class="w-1/12 bg-outline-variant/30 h-3/4"></div>
+<div class="w-1/12 bg-outline-variant/30 h-full"></div>
+<div class="w-1/12 bg-outline-variant/30 h-5/6"></div>
+<div class="w-1/12 bg-outline-variant/30 h-full"></div>
+<div class="w-1/12 bg-[#10b981] h-full"></div>
+</div>
+</div>
+<div class="glass-panel p-4 border-t-2 border-t-[#10b981]">
+<div class="font-label-caps text-label-caps text-secondary mb-2">Allowed</div>
+<div class="flex items-baseline gap-2 mb-2">
+<span class="font-headline-md text-headline-md text-on-surface">176,842</span>
+<span class="font-mono-sm text-mono-sm text-secondary">96.0%</span>
+</div>
+<div class="w-full bg-surface-variant h-1 rounded-full overflow-hidden mt-4">
+<div class="bg-[#10b981] h-full w-[96%]"></div>
+</div>
+</div>
+<div class="glass-panel p-4 border-t-2 border-t-[#ef4444]">
+<div class="font-label-caps text-label-caps text-secondary mb-2">Rate Limited</div>
+<div class="flex items-baseline gap-2 mb-2">
+<span class="font-headline-md text-headline-md text-on-surface">7,449</span>
+<span class="font-mono-sm text-mono-sm text-[#ef4444] bg-[#ef4444]/10 px-1 rounded">4.0%</span>
+</div>
+<div class="w-full bg-surface-variant h-1 rounded-full overflow-hidden mt-4">
+<div class="bg-[#ef4444] h-full w-[4%]"></div>
+</div>
+</div>
+<div class="glass-panel p-4">
+<div class="font-label-caps text-label-caps text-secondary mb-2">P95 Latency</div>
+<div class="flex items-baseline gap-2 mb-2">
+<span class="font-headline-md text-headline-md text-on-surface">18ms</span>
+<span class="font-mono-sm text-mono-sm text-[#10b981] bg-[#10b981]/10 px-1 rounded">-3.2%</span>
+</div>
+<div class="h-6 w-full flex items-end gap-[2px]">
+<!-- Sparkline -->
+<div class="w-1/6 bg-outline-variant/30 h-full"></div>
+<div class="w-1/6 bg-outline-variant/30 h-5/6"></div>
+<div class="w-1/6 bg-outline-variant/30 h-4/6"></div>
+<div class="w-1/6 bg-outline-variant/30 h-3/6"></div>
+<div class="w-1/6 bg-outline-variant/30 h-4/6"></div>
+<div class="w-1/6 bg-primary h-3/6"></div>
+</div>
+</div>
+<div class="glass-panel p-4">
+<div class="font-label-caps text-label-caps text-secondary mb-2">Active Tenants</div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-md text-headline-md text-on-surface">42</span>
+<span class="font-mono-sm text-mono-sm text-secondary">/ 50 cap</span>
+</div>
+<div class="mt-4 flex gap-1">
+<div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-outline-variant"></div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Layout for Main Content -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Main Chart Area (Spans 2 columns on large screens) -->
+<div class="lg:col-span-2 glass-panel p-container-padding flex flex-col h-[400px]">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-label-caps text-label-caps text-on-surface">Request Throughput (req/sec)</h2>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+<span class="font-mono-sm text-mono-sm text-secondary">Allowed</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#ef4444]"></span>
+<span class="font-mono-sm text-mono-sm text-secondary">Rejected</span>
+</div>
+</div>
+</div>
+<!-- Chart Visualization Canvas -->
+<div class="flex-grow relative border-b border-l border-outline-variant mt-2">
+<!-- Grid Lines -->
+<div class="absolute inset-0 flex flex-col justify-between">
+<div class="border-b border-surface-variant w-full h-0"></div>
+<div class="border-b border-surface-variant w-full h-0"></div>
+<div class="border-b border-surface-variant w-full h-0"></div>
+<div class="border-b border-surface-variant w-full h-0"></div>
+</div>
+<!-- Y-Axis Labels -->
+<div class="absolute -left-8 top-0 h-full flex flex-col justify-between font-mono-sm text-mono-sm text-secondary py-1 items-end pr-2">
+<span>2k</span>
+<span>1.5k</span>
+<span>1k</span>
+<span>500</span>
+<span>0</span>
+</div>
+<!-- Simulated Data Lines -->
+<!-- Allowed (Emerald) -->
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,80 L10,75 L20,60 L30,65 L40,40 L50,45 L60,20 L70,30 L80,25 L90,35 L100,10" fill="none" stroke="#10b981" stroke-width="1.5" vector-effect="non-scaling-stroke"></path>
+</svg>
+<!-- Rejected (Rose) -->
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,95 L10,95 L20,90 L30,92 L40,85 L50,88 L60,30 L70,80 L80,85 L90,82 L100,85" fill="none" stroke="#ef4444" stroke-width="1.5" vector-effect="non-scaling-stroke"></path>
+</svg>
+<!-- Burst Annotation -->
+<div class="absolute left-[60%] top-[25%] -translate-x-1/2 -translate-y-full mb-2 z-10">
+<div class="bg-surface-container-highest border border-outline rounded px-2 py-1 shadow-sm whitespace-nowrap">
+<span class="font-mono-sm text-mono-sm text-on-surface">Burst detected: 1,284 req/s</span>
+</div>
+<div class="w-px h-6 bg-outline mx-auto"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-outline mx-auto -mt-1"></div>
+</div>
+</div>
+<!-- X-Axis Labels -->
+<div class="flex justify-between font-mono-sm text-mono-sm text-secondary mt-2 pl-2">
+<span>14:00</span>
+<span>14:03</span>
+<span>14:06</span>
+<span>14:09</span>
+<span>14:12</span>
+<span>14:15</span>
+</div>
+</div>
+<!-- Recent Decisions Feed -->
+<div class="glass-panel p-4 flex flex-col h-[400px]">
+<div class="flex justify-between items-center mb-4">
+<h2 class="font-label-caps text-label-caps text-on-surface">Recent Decisions</h2>
+<button class="text-primary font-mono-sm text-mono-sm hover:underline">View all</button>
+</div>
+<div class="flex-grow overflow-y-auto scrollbar-hide pr-2">
+<div class="flex flex-col gap-0 border-t border-outline-variant">
+<!-- Feed Item -->
+<div class="py-3 border-b border-outline-variant hover:bg-surface-container-low transition-colors px-2 -mx-2 flex justify-between items-start group">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-[#10b981]/10 text-[#10b981] font-mono-sm text-mono-sm px-1.5 py-0.5 rounded border border-[#10b981]/20">ALLOWED</span>
+<span class="font-mono-sm text-mono-sm text-secondary">14:14:52</span>
+</div>
+<div class="font-mono-sm text-mono-sm text-on-surface">POST /v1/payments/capture</div>
+<div class="font-mono-sm text-mono-sm text-secondary mt-0.5">tenant_id: acct_8923f</div>
+</div>
+</div>
+<!-- Feed Item -->
+<div class="py-3 border-b border-outline-variant hover:bg-surface-container-low transition-colors px-2 -mx-2 flex justify-between items-start group bg-error-container/10">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-[#ef4444]/10 text-[#ef4444] font-mono-sm text-mono-sm px-1.5 py-0.5 rounded border border-[#ef4444]/20">BLOCKED</span>
+<span class="font-mono-sm text-mono-sm text-secondary">14:14:49</span>
+</div>
+<div class="font-mono-sm text-mono-sm text-on-surface">GET /v2/analytics/export</div>
+<div class="font-mono-sm text-mono-sm text-secondary mt-0.5">tenant_id: acct_2241x (Rate limit: 100/min)</div>
+</div>
+</div>
+<!-- Feed Item -->
+<div class="py-3 border-b border-outline-variant hover:bg-surface-container-low transition-colors px-2 -mx-2 flex justify-between items-start group">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-[#10b981]/10 text-[#10b981] font-mono-sm text-mono-sm px-1.5 py-0.5 rounded border border-[#10b981]/20">ALLOWED</span>
+<span class="font-mono-sm text-mono-sm text-secondary">14:14:45</span>
+</div>
+<div class="font-mono-sm text-mono-sm text-on-surface">GET /v1/users/me</div>
+<div class="font-mono-sm text-mono-sm text-secondary mt-0.5">tenant_id: acct_9912z</div>
+</div>
+</div>
+<!-- Feed Item -->
+<div class="py-3 border-b border-outline-variant hover:bg-surface-container-low transition-colors px-2 -mx-2 flex justify-between items-start group">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="bg-[#10b981]/10 text-[#10b981] font-mono-sm text-mono-sm px-1.5 py-0.5 rounded border border-[#10b981]/20">ALLOWED</span>
+<span class="font-mono-sm text-mono-sm text-secondary">14:14:41</span>
+</div>
+<div class="font-mono-sm text-mono-sm text-on-surface">POST /v1/webhooks/stripe</div>
+<div class="font-mono-sm text-mono-sm text-secondary mt-0.5">tenant_id: sys_internal</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quota Utilization Table (Spans full width) -->
+<div class="lg:col-span-3 glass-panel overflow-hidden">
+<div class="p-4 border-b border-outline-variant flex justify-between items-center bg-surface-bright">
+<h2 class="font-label-caps text-label-caps text-on-surface">Quota Utilization (Top Consumers)</h2>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-[16px] text-secondary">search</span>
+<input class="pl-8 pr-3 py-1 bg-surface-container-lowest border border-outline-variant rounded font-mono-sm text-mono-sm w-48 focus:border-primary focus:ring-0 focus:outline-none placeholder:text-secondary h-8" placeholder="Filter tenants..." type="text"/>
+</div>
+</div>
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr class="border-b border-outline-variant bg-surface">
+<th class="py-2 px-4 font-label-caps text-label-caps text-secondary font-semibold w-1/4">Tenant</th>
+<th class="py-2 px-4 font-label-caps text-label-caps text-secondary font-semibold w-[15%]">Plan</th>
+<th class="py-2 px-4 font-label-caps text-label-caps text-secondary font-semibold w-[15%]">Current Usage</th>
+<th class="py-2 px-4 font-label-caps text-label-caps text-secondary font-semibold w-[15%]">Limit (per min)</th>
+<th class="py-2 px-4 font-label-caps text-label-caps text-secondary font-semibold w-1/4">Utilization</th>
+<th class="py-2 px-4 font-label-caps text-label-caps text-secondary font-semibold text-right">Status</th>
+</tr>
+</thead>
+<tbody class="font-mono-base text-mono-base text-on-surface">
+<tr class="border-b border-surface-variant hover:bg-surface-container-low transition-colors h-[40px]">
+<td class="py-2 px-4">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 bg-surface-variant rounded flex items-center justify-center font-label-caps text-[9px] text-secondary border border-outline-variant">A</div>
+<span>acct_8923f</span>
+</div>
+</td>
+<td class="py-2 px-4 text-secondary">Enterprise</td>
+<td class="py-2 px-4">4,291</td>
+<td class="py-2 px-4 text-secondary">5,000</td>
+<td class="py-2 px-4">
+<div class="flex items-center gap-2">
+<div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#f59e0b] h-full w-[85%]"></div>
+</div>
+<span class="font-mono-sm text-mono-sm text-secondary">85%</span>
+</div>
+</td>
+<td class="py-2 px-4 text-right">
+<span class="inline-flex items-center gap-1.5 bg-[#f59e0b]/10 text-[#f59e0b] px-2 py-0.5 rounded font-mono-sm text-mono-sm border border-[#f59e0b]/20">
+<span class="w-1.5 h-1.5 rounded-full bg-[#f59e0b]"></span> Near limit
+                                    </span>
+</td>
+</tr>
+<tr class="border-b border-surface-variant hover:bg-surface-container-low transition-colors h-[40px]">
+<td class="py-2 px-4">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 bg-surface-variant rounded flex items-center justify-center font-label-caps text-[9px] text-secondary border border-outline-variant">B</div>
+<span>acct_2241x</span>
+</div>
+</td>
+<td class="py-2 px-4 text-secondary">Pro</td>
+<td class="py-2 px-4">105</td>
+<td class="py-2 px-4 text-secondary">100</td>
+<td class="py-2 px-4">
+<div class="flex items-center gap-2">
+<div class="w-full bg-error-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#ef4444] h-full w-[100%]"></div>
+</div>
+<span class="font-mono-sm text-mono-sm text-secondary">105%</span>
+</div>
+</td>
+<td class="py-2 px-4 text-right">
+<span class="inline-flex items-center gap-1.5 bg-[#ef4444]/10 text-[#ef4444] px-2 py-0.5 rounded font-mono-sm text-mono-sm border border-[#ef4444]/20">
+<span class="w-1.5 h-1.5 rounded-full bg-[#ef4444]"></span> Critical
+                                    </span>
+</td>
+</tr>
+<tr class="border-b border-surface-variant hover:bg-surface-container-low transition-colors h-[40px]">
+<td class="py-2 px-4">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 bg-surface-variant rounded flex items-center justify-center font-label-caps text-[9px] text-secondary border border-outline-variant">S</div>
+<span>sys_internal</span>
+</div>
+</td>
+<td class="py-2 px-4 text-secondary">Unlimited</td>
+<td class="py-2 px-4">8,992</td>
+<td class="py-2 px-4 text-secondary">∞</td>
+<td class="py-2 px-4">
+<div class="flex items-center gap-2">
+<div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden">
+<div class="bg-outline-variant h-full w-[20%]"></div>
+</div>
+<span class="font-mono-sm text-mono-sm text-secondary">N/A</span>
+</div>
+</td>
+<td class="py-2 px-4 text-right">
+<span class="inline-flex items-center gap-1.5 bg-[#10b981]/10 text-[#10b981] px-2 py-0.5 rounded font-mono-sm text-mono-sm border border-[#10b981]/20">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span> Healthy
+                                    </span>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors h-[40px]">
+<td class="py-2 px-4">
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 bg-surface-variant rounded flex items-center justify-center font-label-caps text-[9px] text-secondary border border-outline-variant">C</div>
+<span>acct_9912z</span>
+</div>
+</td>
+<td class="py-2 px-4 text-secondary">Starter</td>
+<td class="py-2 px-4">12</td>
+<td class="py-2 px-4 text-secondary">60</td>
+<td class="py-2 px-4">
+<div class="flex items-center gap-2">
+<div class="w-full bg-surface-variant h-1.5 rounded-full overflow-hidden">
+<div class="bg-[#10b981] h-full w-[20%]"></div>
+</div>
+<span class="font-mono-sm text-mono-sm text-secondary">20%</span>
+</div>
+</td>
+<td class="py-2 px-4 text-right">
+<span class="inline-flex items-center gap-1.5 bg-[#10b981]/10 text-[#10b981] px-2 py-0.5 rounded font-mono-sm text-mono-sm border border-[#10b981]/20">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span> Healthy
+                                    </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="fixed bottom-0 left-0 w-full z-40 flex items-center justify-between px-container-padding py-2 bg-surface-container-low border-t border-outline-variant h-[44px]">
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-label-caps text-on-surface-variant">QuotaForge Infrastructure Health</span>
+</div>
+<div class="flex items-center gap-6 font-mono-sm text-mono-sm text-secondary">
+<div class="flex items-center gap-1.5 hover:text-on-surface transition-opacity duration-150 cursor-default">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+<span>Redis: 4ms</span>
+</div>
+<div class="flex items-center gap-1.5 hover:text-on-surface transition-opacity duration-150 cursor-default">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+<span>Postgres: 12ms</span>
+</div>
+<div class="flex items-center gap-1.5 hover:text-on-surface transition-opacity duration-150 cursor-default">
+<span class="w-1.5 h-1.5 rounded-full bg-outline-variant"></span>
+<span>Queue: 18 pending</span>
+</div>
+<div class="flex items-center gap-1.5 hover:text-on-surface transition-opacity duration-150 cursor-default">
+<span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+<span class="text-primary font-medium">Gateway: 99.99%</span>
+</div>
+</div>
+</footer>
+</body></html>

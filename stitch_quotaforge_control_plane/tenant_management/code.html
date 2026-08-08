@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuotaForge - Tenants</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&amp;family=Geist:wght@100..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f8f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary": "#585e6c",
+                        "tertiary-fixed": "#ffdcc6",
+                        "inverse-surface": "#2e3132",
+                        "on-secondary-fixed-variant": "#414754",
+                        "secondary-fixed": "#dde2f3",
+                        "primary-fixed": "#d8e2ff",
+                        "secondary-fixed-dim": "#c1c6d7",
+                        "on-secondary-fixed": "#161c27",
+                        "primary-container": "#2170e4",
+                        "on-background": "#191c1e",
+                        "on-tertiary-container": "#fffbff",
+                        "background": "#f8f9fb",
+                        "outline": "#727785",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#edeef0",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#fefcff",
+                        "secondary-container": "#dde2f3",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-surface": "#191c1e",
+                        "surface-dim": "#d9dadc",
+                        "surface-container-highest": "#e1e2e4",
+                        "outline-variant": "#c2c6d6",
+                        "on-secondary-container": "#5e6473",
+                        "on-tertiary-fixed": "#311400",
+                        "surface-container-high": "#e7e8ea",
+                        "primary": "#0058be",
+                        "surface": "#f8f9fb",
+                        "inverse-on-surface": "#f0f1f3",
+                        "inverse-primary": "#adc6ff",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#b75b00",
+                        "on-primary-fixed": "#001a42",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "tertiary": "#924700",
+                        "surface-variant": "#e1e2e4",
+                        "surface-tint": "#005ac2",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-surface-variant": "#424754",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "container-padding": "24px",
+                        "unit": "4px",
+                        "nav-height": "64px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Geist"],
+                        "mono-base": ["Geist Mono"],
+                        "body-base": ["Inter"],
+                        "mono-sm": ["Geist Mono"],
+                        "headline-md": ["Geist"],
+                        "label-caps": ["Geist"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "mono-base": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-base": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "mono-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #F7F8FA; }
+        .grid-bg {
+            background-size: 16px 16px;
+            background-image:
+                linear-gradient(to right, #F1F5F9 1px, transparent 1px),
+                linear-gradient(to bottom, #F1F5F9 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="font-body-base text-on-surface antialiased flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<nav class="bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant dark:border-outline fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-nav-height">
+<div class="flex items-center gap-[48px] h-full">
+<div class="font-headline-md text-headline-md font-bold text-on-surface dark:text-inverse-on-surface">QuotaForge</div>
+<div class="hidden md:flex h-full gap-container-padding">
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface h-full flex items-center font-label-caps text-label-caps uppercase hover:bg-surface-container-low dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:opacity-80 px-2" href="#">Overview</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface h-full flex items-center font-label-caps text-label-caps uppercase hover:bg-surface-container-low dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:opacity-80 px-2" href="#">Traffic</a>
+<a class="text-primary dark:text-primary-fixed border-b-2 border-primary dark:border-primary-fixed h-full flex items-center font-label-caps text-label-caps uppercase hover:bg-surface-container-low dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:opacity-80 px-2" href="#">Tenants</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface h-full flex items-center font-label-caps text-label-caps uppercase hover:bg-surface-container-low dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:opacity-80 px-2" href="#">Policies</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface h-full flex items-center font-label-caps text-label-caps uppercase hover:bg-surface-container-low dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:opacity-80 px-2" href="#">Usage</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface h-full flex items-center font-label-caps text-label-caps uppercase hover:bg-surface-container-low dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:opacity-80 px-2" href="#">Events</a>
+</div>
+</div>
+<div class="flex items-center gap-stack-md">
+<a class="hidden md:block font-body-sm text-body-sm text-secondary hover:text-on-surface transition-colors" href="#">Documentation</a>
+<button aria-label="settings" class="p-2 text-secondary hover:text-on-surface transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
+</button>
+<button aria-label="notifications" class="p-2 text-secondary hover:text-on-surface transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined text-[20px]" data-icon="notifications">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden cursor-pointer border border-outline-variant">
+<img alt="User profile menu" class="w-full h-full object-cover" data-alt="A macro shot of a precise, machined metal abstract surface representing an engineering profile avatar. Crisp studio lighting, minimalist industrial aesthetic, monochrome with subtle brushed steel textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIUYjUw_E5yXojGIsWNN8GtXb36zA3FzPyi7pFX7a0aygHi7jRZUtcq_LC7xzVjxSdvrerKt-hKO69X29JT90bJkvY9FE3LHWMqtWGPg5Jc_EG2UK190hW7dyo3dcPdsppNlKOSA9HwOlGT1q6Fm81iHkgcqXRhL9FZ2Eoa-vQ4Q3BjQGAiCmiMJiX4i5mMQtqh5BNQya2jOI3SWV2tzgClKMHpdgPEwZctyCN5nbLKWB7S8zCAG7a"/>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 pt-[88px] pb-[80px] px-container-padding max-w-[1600px] mx-auto w-full flex gap-container-padding relative">
+<!-- Tenants List View -->
+<div class="flex-1 flex flex-col gap-stack-md transition-all duration-300" id="tenants-list">
+<!-- Header Actions -->
+<div class="flex justify-between items-end mb-stack-sm">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface m-0">Tenants</h1>
+<p class="font-body-base text-body-base text-secondary mt-1">Manage API consumers and quota allocations.</p>
+</div>
+<div class="flex gap-stack-sm">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary text-[18px]">search</span>
+<input class="h-9 pl-9 pr-3 py-1 font-body-base text-body-base bg-surface-container-lowest border border-outline-variant rounded text-on-surface focus:outline-none focus:border-[#3B82F6] focus:ring-0 w-64" placeholder="Search tenants..." type="text"/>
+</div>
+<button class="h-9 px-4 bg-[#1A202C] text-white rounded font-body-base text-body-base font-medium flex items-center gap-2 hover:bg-black transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                        Create tenant
+                    </button>
+</div>
+</div>
+<!-- Tenants Table -->
+<div class="bg-surface-container-lowest border border-[#E2E8F0] rounded overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-[#E2E8F0] bg-[#F8FAFC]">
+<th class="py-2 px-4 font-label-caps text-label-caps text-secondary uppercase font-semibold w-1/4">Tenant</th>
+<th class="py-2 px-4 font-label-caps text-label-caps text-secondary uppercase font-semibold">Plan</th>
+<th class="py-2 px-4 font-label-caps text-label-caps text-secondary uppercase font-semibold">API Keys</th>
+<th class="py-2 px-4 font-label-caps text-label-caps text-secondary uppercase font-semibold text-right">Usage</th>
+<th class="py-2 px-4 font-label-caps text-label-caps text-secondary uppercase font-semibold text-right">Rate Limit</th>
+<th class="py-2 px-4 font-label-caps text-label-caps text-secondary uppercase font-semibold">Status</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-body-sm">
+<!-- Row 1: Selected -->
+<tr class="border-b border-[#E2E8F0] bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors" onclick="toggleDrawer()">
+<td class="py-2 px-4 font-medium text-on-surface flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-surface border border-outline-variant flex items-center justify-center font-label-caps text-[10px]">AC</div>
+                                Acme Corporation
+                            </td>
+<td class="py-2 px-4 text-secondary">Enterprise</td>
+<td class="py-2 px-4 font-mono-sm text-mono-sm text-secondary">2 active</td>
+<td class="py-2 px-4 font-mono-sm text-mono-sm text-right text-on-surface">9.4M / 10M</td>
+<td class="py-2 px-4 font-mono-sm text-mono-sm text-right text-secondary">10,000 req/m</td>
+<td class="py-2 px-4">
+<span class="flex items-center gap-1.5 text-secondary">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                    Operational
+                                </span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-[#E2E8F0] hover:bg-surface-container-low transition-colors cursor-pointer">
+<td class="py-2 px-4 font-medium text-on-surface flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-surface border border-outline-variant flex items-center justify-center font-label-caps text-[10px]">GL</div>
+                                Globex Inc
+                            </td>
+<td class="py-2 px-4 text-secondary">Pro</td>
+<td class="py-2 px-4 font-mono-sm text-mono-sm text-secondary">1 active</td>
+<td class="py-2 px-4 font-mono-sm text-mono-sm text-right text-on-surface">1.2M / 2.5M</td>
+<td class="py-2 px-4 font-mono-sm text-mono-sm text-right text-secondary">2,500 req/m</td>
+<td class="py-2 px-4">
+<span class="flex items-center gap-1.5 text-secondary">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                    Operational
+                                </span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-[#E2E8F0] hover:bg-surface-container-low transition-colors cursor-pointer">
+<td class="py-2 px-4 font-medium text-on-surface flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-surface border border-outline-variant flex items-center justify-center font-label-caps text-[10px]">SY</div>
+                                Soylent Corp
+                            </td>
+<td class="py-2 px-4 text-secondary">Starter</td>
+<td class="py-2 px-4 font-mono-sm text-mono-sm text-secondary">1 active</td>
+<td class="py-2 px-4 font-mono-sm text-mono-sm text-right text-error font-medium">100k / 100k</td>
+<td class="py-2 px-4 font-mono-sm text-mono-sm text-right text-secondary">500 req/m</td>
+<td class="py-2 px-4">
+<span class="flex items-center gap-1.5 text-secondary">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+                                    Quota Exceeded
+                                </span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low transition-colors cursor-pointer">
+<td class="py-2 px-4 font-medium text-on-surface flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-surface border border-outline-variant flex items-center justify-center font-label-caps text-[10px]">IT</div>
+                                Initech
+                            </td>
+<td class="py-2 px-4 text-secondary">Enterprise</td>
+<td class="py-2 px-4 font-mono-sm text-mono-sm text-secondary">0 active</td>
+<td class="py-2 px-4 font-mono-sm text-mono-sm text-right text-on-surface">0 / 10M</td>
+<td class="py-2 px-4 font-mono-sm text-mono-sm text-right text-secondary">10,000 req/m</td>
+<td class="py-2 px-4">
+<span class="flex items-center gap-1.5 text-secondary">
+<span class="w-2 h-2 rounded-full bg-surface-variant border border-outline-variant"></span>
+                                    Suspended
+                                </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex justify-between items-center mt-2">
+<span class="font-body-sm text-body-sm text-secondary">Showing 4 of 241 tenants</span>
+<div class="flex gap-1">
+<button class="w-8 h-8 flex items-center justify-center border border-[#E2E8F0] rounded bg-surface-container-lowest text-secondary hover:bg-surface-container-low disabled:opacity-50"><span class="material-symbols-outlined text-[16px]">chevron_left</span></button>
+<button class="w-8 h-8 flex items-center justify-center border border-[#E2E8F0] rounded bg-surface-container-lowest text-secondary hover:bg-surface-container-low"><span class="material-symbols-outlined text-[16px]">chevron_right</span></button>
+</div>
+</div>
+</div>
+<!-- Tenant Details Drawer (Visible by default for the mockup state) -->
+<div class="w-[540px] flex-shrink-0 bg-surface-container-lowest border border-[#E2E8F0] rounded flex flex-col transform transition-transform duration-300 translate-x-0 h-[calc(100vh-140px)] sticky top-[88px] overflow-hidden" id="tenant-drawer">
+<!-- Drawer Header -->
+<div class="p-container-padding border-b border-[#E2E8F0] flex flex-col gap-stack-sm bg-surface-bright relative">
+<button class="absolute top-4 right-4 text-secondary hover:text-on-surface" onclick="toggleDrawer()">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface border border-outline-variant flex items-center justify-center font-headline-md text-headline-md text-secondary">AC</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface m-0 flex items-center gap-2">
+                            Acme Corporation
+                            <span class="px-1.5 py-0.5 border border-outline-variant rounded bg-surface font-mono-sm text-[9px] text-secondary tracking-wide uppercase">Enterprise</span>
+</h2>
+<div class="flex items-center gap-3 mt-1">
+<span class="flex items-center gap-1.5 font-body-sm text-body-sm text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                Operational
+                            </span>
+<span class="w-px h-3 bg-outline-variant"></span>
+<span class="font-mono-sm text-mono-sm text-secondary">ID: ten_9f8e7d6c</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2 mt-2">
+<button class="flex-1 h-8 bg-surface-container-lowest border border-[#E2E8F0] rounded font-body-sm text-body-sm font-medium hover:bg-surface-container-low transition-colors text-on-surface">Edit Quota</button>
+<button class="flex-1 h-8 bg-surface-container-lowest border border-[#E2E8F0] rounded font-body-sm text-body-sm font-medium hover:bg-surface-container-low transition-colors text-on-surface">Rotate Key</button>
+<button class="flex-1 h-8 bg-surface-container-lowest border border-error-container rounded font-body-sm text-body-sm font-medium hover:bg-error-container transition-colors text-error">Suspend</button>
+</div>
+</div>
+<!-- Drawer Content Scrollable -->
+<div class="flex-1 overflow-y-auto p-container-padding flex flex-col gap-stack-lg">
+<!-- Primary Credentials -->
+<div class="flex flex-col gap-stack-sm">
+<h3 class="font-label-caps text-label-caps text-secondary uppercase">Active API Key</h3>
+<div class="flex items-center justify-between p-3 bg-[#F8FAFC] border border-[#E2E8F0] rounded">
+<div class="font-mono-base text-mono-base text-on-surface tracking-tight">qf_live_<span class="text-secondary opacity-50">••••••••</span>7F2A</div>
+<button class="text-secondary hover:text-on-surface"><span class="material-symbols-outlined text-[18px]">content_copy</span></button>
+</div>
+<div class="flex items-center justify-between mt-1">
+<span class="font-body-sm text-body-sm text-secondary">Created: Oct 12, 2023</span>
+<span class="font-body-sm text-body-sm text-secondary">Last used: Just now</span>
+</div>
+</div>
+<!-- Metrics Bento -->
+<div class="grid grid-cols-2 gap-stack-md">
+<!-- Utilization -->
+<div class="border border-[#E2E8F0] rounded p-4 flex flex-col gap-2 relative overflow-hidden">
+<div class="absolute bottom-0 left-0 h-1 bg-surface-variant w-full"><div class="h-full bg-primary" style="width: 94%"></div></div>
+<span class="font-label-caps text-label-caps text-secondary uppercase">Quota Utilization</span>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface">94%</span>
+<span class="font-mono-sm text-mono-sm text-secondary">9.4M / 10M</span>
+</div>
+</div>
+<!-- Latency -->
+<div class="border border-[#E2E8F0] rounded p-4 flex flex-col gap-2">
+<span class="font-label-caps text-label-caps text-secondary uppercase">Avg Latency (p95)</span>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface">42ms</span>
+<span class="font-mono-sm text-mono-sm text-green-600 flex items-center"><span class="material-symbols-outlined text-[12px]">arrow_downward</span> 3ms</span>
+</div>
+</div>
+<!-- Current Rate -->
+<div class="border border-[#E2E8F0] rounded p-4 flex flex-col gap-2">
+<span class="font-label-caps text-label-caps text-secondary uppercase">Current Vol</span>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface">8.2k</span>
+<span class="font-mono-sm text-mono-sm text-secondary">req/m</span>
+</div>
+</div>
+<!-- Blocked -->
+<div class="border border-[#E2E8F0] rounded p-4 flex flex-col gap-2">
+<span class="font-label-caps text-label-caps text-secondary uppercase">Blocked (24h)</span>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-on-surface">1,402</span>
+<span class="font-mono-sm text-mono-sm text-secondary">429s</span>
+</div>
+</div>
+</div>
+<!-- Policy Details -->
+<div class="flex flex-col gap-stack-sm border-t border-[#E2E8F0] pt-stack-md">
+<h3 class="font-label-caps text-label-caps text-secondary uppercase">Enforced Policy</h3>
+<div class="p-3 bg-surface border border-outline-variant rounded font-mono-sm text-mono-sm flex flex-col gap-2">
+<div class="flex justify-between border-b border-outline-variant pb-2">
+<span class="text-secondary">Algorithm</span>
+<span class="text-on-surface">Token Bucket</span>
+</div>
+<div class="flex justify-between border-b border-outline-variant pb-2">
+<span class="text-secondary">Limit</span>
+<span class="text-on-surface">10,000 req/min</span>
+</div>
+<div class="flex justify-between">
+<span class="text-secondary">Burst Capacity</span>
+<span class="text-on-surface">2,000</span>
+</div>
+</div>
+</div>
+<!-- Mini Chart Placeholder -->
+<div class="flex flex-col gap-stack-sm border-t border-[#E2E8F0] pt-stack-md">
+<div class="flex justify-between items-center">
+<h3 class="font-label-caps text-label-caps text-secondary uppercase">Tenant Request Volume</h3>
+<span class="font-mono-sm text-mono-sm text-secondary">Last 6 hours</span>
+</div>
+<div class="h-32 border border-[#E2E8F0] rounded bg-surface-bright relative grid-bg flex items-end p-2 gap-1">
+<!-- Simulated sparkline bars -->
+<div class="flex-1 bg-primary/20 hover:bg-primary/40 transition-colors h-[20%] border-t border-primary/50"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary/40 transition-colors h-[45%] border-t border-primary/50"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary/40 transition-colors h-[30%] border-t border-primary/50"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary/40 transition-colors h-[60%] border-t border-primary/50"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary/40 transition-colors h-[80%] border-t border-primary/50"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary/40 transition-colors h-[95%] border-t border-primary/50"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary/40 transition-colors h-[85%] border-t border-primary/50"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary/40 transition-colors h-[70%] border-t border-primary/50"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary/40 transition-colors h-[50%] border-t border-primary/50"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary/40 transition-colors h-[40%] border-t border-primary/50"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary/40 transition-colors h-[25%] border-t border-primary/50"></div>
+<div class="flex-1 bg-primary/20 hover:bg-primary/40 transition-colors h-[30%] border-t border-primary/50"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-low dark:bg-surface-container-high border-t border-outline-variant dark:border-outline fixed bottom-0 left-0 w-full z-40 flex items-center justify-between px-container-padding py-2">
+<div class="font-label-caps text-label-caps text-on-surface-variant uppercase">QuotaForge Infrastructure Health</div>
+<div class="flex gap-container-padding">
+<span class="font-mono-sm text-mono-sm text-secondary dark:text-secondary-fixed-dim transition-opacity duration-150 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Redis: Healthy</span>
+<span class="font-mono-sm text-mono-sm text-secondary dark:text-secondary-fixed-dim transition-opacity duration-150 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Postgres: Healthy</span>
+<span class="font-mono-sm text-mono-sm text-secondary dark:text-secondary-fixed-dim transition-opacity duration-150 flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Queue: Idle</span>
+<span class="font-mono-sm text-mono-sm text-secondary dark:text-secondary-fixed-dim transition-opacity duration-150 flex items-center gap-1.5"><span class="material-symbols-outlined text-[14px]">speed</span> Gateway: 12ms</span>
+</div>
+</footer>
+<script>
+        function toggleDrawer() {
+            const drawer = document.getElementById('tenant-drawer');
+            if (drawer.classList.contains('translate-x-full')) {
+                drawer.classList.remove('translate-x-full', 'hidden');
+                drawer.classList.add('translate-x-0');
+            } else {
+                drawer.classList.remove('translate-x-0');
+                drawer.classList.add('translate-x-full');
+                setTimeout(() => {
+                    drawer.classList.add('hidden');
+                }, 300); // match transition duration
+            }
+        }
+    </script>
+</body></html>

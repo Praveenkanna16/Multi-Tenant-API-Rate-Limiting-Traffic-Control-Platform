@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rate-limit Policies - QuotaForge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&amp;family=Geist:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f8f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary": "#585e6c",
+                        "tertiary-fixed": "#ffdcc6",
+                        "inverse-surface": "#2e3132",
+                        "on-secondary-fixed-variant": "#414754",
+                        "secondary-fixed": "#dde2f3",
+                        "primary-fixed": "#d8e2ff",
+                        "secondary-fixed-dim": "#c1c6d7",
+                        "on-secondary-fixed": "#161c27",
+                        "primary-container": "#2170e4",
+                        "on-background": "#191c1e",
+                        "on-tertiary-container": "#fffbff",
+                        "background": "#f8f9fb",
+                        "outline": "#727785",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#edeef0",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#fefcff",
+                        "secondary-container": "#dde2f3",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-surface": "#191c1e",
+                        "surface-dim": "#d9dadc",
+                        "surface-container-highest": "#e1e2e4",
+                        "outline-variant": "#c2c6d6",
+                        "on-secondary-container": "#5e6473",
+                        "on-tertiary-fixed": "#311400",
+                        "surface-container-high": "#e7e8ea",
+                        "primary": "#0058be",
+                        "surface": "#f8f9fb",
+                        "inverse-on-surface": "#f0f1f3",
+                        "inverse-primary": "#adc6ff",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#b75b00",
+                        "on-primary-fixed": "#001a42",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "tertiary": "#924700",
+                        "surface-variant": "#e1e2e4",
+                        "surface-tint": "#005ac2",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-surface-variant": "#424754",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "container-padding": "24px",
+                        "unit": "4px",
+                        "nav-height": "64px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Geist"],
+                        "mono-base": ["Geist Mono"],
+                        "body-base": ["Inter"],
+                        "mono-sm": ["Geist Mono"],
+                        "headline-md": ["Geist"],
+                        "label-caps": ["Geist"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "mono-base": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-base": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "mono-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #F7F8FA;
+            color: theme('colors.on-background');
+        }
+        .simulation-stream {
+            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-base text-body-base bg-background selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-nav-height bg-surface-container-lowest border-b border-outline-variant flat no shadows">
+<div class="flex items-center h-full space-x-8">
+<span class="font-headline-md text-headline-md font-bold text-on-surface">QuotaForge</span>
+<div class="hidden md:flex h-full space-x-6">
+<a class="text-secondary hover:text-on-surface h-full flex items-center hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80 px-2 font-label-caps text-label-caps" href="#">Overview</a>
+<a class="text-secondary hover:text-on-surface h-full flex items-center hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80 px-2 font-label-caps text-label-caps" href="#">Traffic</a>
+<a class="text-secondary hover:text-on-surface h-full flex items-center hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80 px-2 font-label-caps text-label-caps" href="#">Tenants</a>
+<a class="text-primary border-b-2 border-primary h-full flex items-center hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80 px-2 font-label-caps text-label-caps" href="#">Policies</a>
+<a class="text-secondary hover:text-on-surface h-full flex items-center hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80 px-2 font-label-caps text-label-caps" href="#">Usage</a>
+<a class="text-secondary hover:text-on-surface h-full flex items-center hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80 px-2 font-label-caps text-label-caps" href="#">Events</a>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<button class="hidden md:flex items-center space-x-2 text-secondary hover:text-on-surface transition-colors">
+<span class="font-label-caps text-label-caps">Documentation</span>
+</button>
+<div class="flex items-center space-x-2">
+<button class="p-2 text-secondary hover:bg-surface-container-low rounded transition-colors" data-icon="settings">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-2 text-secondary hover:bg-surface-container-low rounded transition-colors" data-icon="notifications">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden ml-2 cursor-pointer">
+<img alt="User profile menu" class="w-full h-full object-cover" data-alt="A minimalist, high-contrast, black and white abstract geometric pattern serving as a generic user profile avatar. The design features sharp, intersecting lines and stark white shapes on a deep black background, conveying a technical and precise aesthetic suitable for an enterprise infrastructure dashboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1vJUSnQvJGpcv15fxImv5DD8Pi2Qp86Km4e18vufyjSaIDh-qWoXpZQkwrH8jKBriNFLzck6s6eLqLV6zODtlfCbo4ihAyslx1bhytB77m33vKsZSIzL-HHDC_zQ0MGajO73UX_o1VLjusCg1MENNcaeHzGIRUeRmtqCnc18Ib2xuE8iOxOa-hUxIcS8S0vI6xoYcOn-kFBcLigDdsf_7kP9bWl8_KDTeXvgDst6LzvTJuYU_xR18"/>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow pt-[calc(64px+32px)] pb-24 px-4 md:px-container-padding max-w-7xl mx-auto w-full">
+<header class="mb-stack-lg">
+<h1 class="font-headline-lg text-headline-lg text-on-background mb-unit">Rate-limit policies</h1>
+<p class="text-secondary font-body-base text-body-base">Configure infrastructure-level traffic control.</p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Policy List -->
+<div class="lg:col-span-4 flex flex-col gap-stack-md">
+<div class="flex justify-between items-center mb-stack-sm">
+<h2 class="font-label-caps text-label-caps text-on-surface">Active Policies</h2>
+<button class="bg-on-background text-on-primary px-3 py-1.5 rounded font-label-caps text-label-caps hover:bg-opacity-90 transition-opacity">
+                        + New Policy
+                    </button>
+</div>
+<!-- Policy Card Active -->
+<div class="bg-surface-container-lowest border-2 border-primary rounded-lg p-4 cursor-pointer relative shadow-sm">
+<div class="absolute top-4 right-4 flex items-center space-x-1">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<span class="font-mono-sm text-mono-sm text-primary">Active</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1">Enterprise Standard</h3>
+<p class="font-mono-sm text-mono-sm text-secondary mb-3">ID: pol_ent_std_992</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container text-on-surface font-mono-sm text-mono-sm rounded">Token Bucket</span>
+<span class="px-2 py-1 bg-surface-container text-on-surface font-mono-sm text-mono-sm rounded">10k/min</span>
+</div>
+</div>
+<!-- Policy Card Inactive -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 cursor-pointer hover:bg-surface-container-low transition-colors">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-md text-headline-md text-on-surface">Basic Tier</h3>
+</div>
+<p class="font-mono-sm text-mono-sm text-secondary mb-3">ID: pol_bsc_tr_104</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container text-on-surface font-mono-sm text-mono-sm rounded">Fixed Window</span>
+<span class="px-2 py-1 bg-surface-container text-on-surface font-mono-sm text-mono-sm rounded">1k/min</span>
+</div>
+</div>
+<!-- Policy Card Inactive -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 cursor-pointer hover:bg-surface-container-low transition-colors">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline-md text-headline-md text-on-surface">Strict API Sync</h3>
+</div>
+<p class="font-mono-sm text-mono-sm text-secondary mb-3">ID: pol_str_api_773</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-1 bg-surface-container text-on-surface font-mono-sm text-mono-sm rounded">Leaky Bucket</span>
+<span class="px-2 py-1 bg-surface-container text-on-surface font-mono-sm text-mono-sm rounded">50/sec</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Detail View & Simulation -->
+<div class="lg:col-span-8 flex flex-col gap-stack-md">
+<!-- Detail Configuration Form -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden">
+<div class="border-b border-outline-variant p-4 bg-surface-container-low flex justify-between items-center">
+<h2 class="font-headline-md text-headline-md text-on-surface">Enterprise Standard Configuration</h2>
+<button class="text-secondary hover:text-on-surface font-label-caps text-label-caps flex items-center space-x-1" data-icon="edit">
+<span class="material-symbols-outlined text-sm">edit</span>
+<span>Edit JSON</span>
+</button>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+<div class="flex flex-col space-y-1">
+<label class="font-label-caps text-label-caps text-secondary">Algorithm</label>
+<select class="w-full bg-surface-container-lowest border border-outline-variant rounded p-2 font-mono-base text-mono-base text-on-surface focus:border-primary-container focus:ring-0 outline-none">
+<option>Token Bucket</option>
+<option>Leaky Bucket</option>
+<option>Fixed Window</option>
+<option>Sliding Window</option>
+</select>
+</div>
+<div class="flex flex-col space-y-1">
+<label class="font-label-caps text-label-caps text-secondary">Response Status</label>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded p-2 font-mono-base text-mono-base text-on-surface-variant cursor-not-allowed" readonly="" type="text" value="429 Too Many Requests"/>
+</div>
+<div class="flex flex-col space-y-1">
+<label class="font-label-caps text-label-caps text-secondary">Rate (Requests)</label>
+<div class="flex items-center">
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-l p-2 font-mono-base text-mono-base text-on-surface focus:border-primary-container focus:ring-0 outline-none border-r-0" type="number" value="10000"/>
+<span class="bg-surface-container px-3 py-2 border border-outline-variant border-l-0 rounded-r font-mono-sm text-mono-sm text-secondary">/ minute</span>
+</div>
+</div>
+<div class="flex flex-col space-y-1">
+<label class="font-label-caps text-label-caps text-secondary">Burst Capacity</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded p-2 font-mono-base text-mono-base text-on-surface focus:border-primary-container focus:ring-0 outline-none" type="number" value="2000"/>
+</div>
+<div class="flex flex-col space-y-1 md:col-span-2">
+<label class="font-label-caps text-label-caps text-secondary">Retry-After Header</label>
+<div class="flex items-center">
+<input class="w-1/3 bg-surface-container-lowest border border-outline-variant rounded-l p-2 font-mono-base text-mono-base text-on-surface focus:border-primary-container focus:ring-0 outline-none border-r-0" type="number" value="60"/>
+<span class="bg-surface-container px-3 py-2 border border-outline-variant border-l-0 rounded-r font-mono-sm text-mono-sm text-secondary">seconds</span>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant p-4 bg-surface flex justify-end space-x-3">
+<button class="px-4 py-2 bg-surface-container-lowest border border-outline-variant rounded text-on-surface font-label-caps text-label-caps hover:bg-surface-container-low transition-colors">Discard Changes</button>
+<button class="px-4 py-2 bg-on-background text-on-primary rounded font-label-caps text-label-caps hover:bg-opacity-90 transition-opacity">Save Policy</button>
+</div>
+</div>
+<!-- Simulation Panel -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden flex flex-col">
+<div class="border-b border-outline-variant p-4 bg-surface-container-low flex justify-between items-center">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-secondary" data-icon="terminal">terminal</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Algorithm Simulation</h2>
+</div>
+<div class="flex items-center space-x-4">
+<div class="flex items-center space-x-2">
+<div class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></div>
+<span class="font-mono-sm text-mono-sm text-secondary">Running Test</span>
+</div>
+</div>
+</div>
+<div class="bg-[#1A202C] p-4 h-64 overflow-hidden relative font-mono-sm text-mono-sm">
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
+<div class="simulation-stream h-full overflow-y-auto flex flex-col justify-end space-y-1 pb-4" id="sim-container">
+<!-- Stream populated by JS -->
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-40 flex items-center justify-between px-container-padding py-2 bg-surface-container-low border-t border-outline-variant flat no shadows transition-opacity duration-150">
+<div class="flex items-center space-x-4">
+<span class="font-label-caps text-label-caps text-on-surface-variant">QuotaForge Infrastructure Health</span>
+</div>
+<div class="hidden md:flex items-center space-x-6">
+<div class="flex items-center space-x-1">
+<div class="w-2 h-2 rounded-full bg-surface-tint"></div>
+<span class="font-mono-sm text-mono-sm text-secondary">Redis: Healthy</span>
+</div>
+<div class="flex items-center space-x-1">
+<div class="w-2 h-2 rounded-full bg-surface-tint"></div>
+<span class="font-mono-sm text-mono-sm text-secondary">Postgres: Healthy</span>
+</div>
+<div class="flex items-center space-x-1">
+<div class="w-2 h-2 rounded-full bg-surface-variant"></div>
+<span class="font-mono-sm text-mono-sm text-secondary">Queue: Idle</span>
+</div>
+<div class="flex items-center space-x-1">
+<span class="font-mono-sm text-mono-sm text-secondary">Gateway: 12ms</span>
+</div>
+</div>
+</footer>
+<script>
+        // Simple simulation stream logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('sim-container');
+            let reqCount = 95;
+            
+            function addLogLine() {
+                const line = document.createElement('div');
+                const timestamp = new Date().toISOString().split('T')[1].substring(0, 8);
+                
+                reqCount++;
+                
+                if (reqCount <= 100) {
+                    line.innerHTML = `<span class="text-secondary">[${timestamp}]</span> <span class="text-surface-bright">Request #${reqCount}</span> <span class="text-primary-fixed-dim">→</span> <span class="text-[#10B981]">ALLOWED</span>`;
+                } else if (reqCount === 101) {
+                    line.innerHTML = `<span class="text-secondary">[${timestamp}]</span> <span class="text-surface-bright">Request #${reqCount}</span> <span class="text-primary-fixed-dim">→</span> <span class="text-[#EF4444] bg-[#EF4444] bg-opacity-20 px-1 rounded">BLOCKED (HTTP 429)</span> <span class="text-secondary ml-2">// Token bucket depleted</span>`;
+                } else if (reqCount < 105) {
+                    line.innerHTML = `<span class="text-secondary">[${timestamp}]</span> <span class="text-surface-bright">Request #${reqCount}</span> <span class="text-primary-fixed-dim">→</span> <span class="text-[#EF4444]">BLOCKED (HTTP 429)</span>`;
+                } else {
+                    reqCount = 95; // reset for loop
+                    line.innerHTML = `<span class="text-secondary mt-2 mb-1 block">--- Burst window reset ---</span>`;
+                }
+
+                container.appendChild(line);
+                
+                // Keep only last 20 lines
+                if (container.children.length > 20) {
+                    container.removeChild(container.firstChild);
+                }
+                
+                // Scroll to bottom
+                container.scrollTop = container.scrollHeight;
+                
+                setTimeout(addLogLine, reqCount > 100 ? 800 : 200);
+            }
+            
+            addLogLine();
+        });
+    </script>
+</body></html>

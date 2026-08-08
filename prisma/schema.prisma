@@ -1,0 +1,49 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Tenant {
+  id                String        @id @default(uuid())
+  name              String
+  apiKey            String        // Cleartext preview / prefix
+  apiKeyHash        String        @unique
+  plan              String        @default("PRO") // FREE, PRO, ENTERPRISE
+  algorithm         String        @default("SLIDING_WINDOW") // TOKEN_BUCKET, SLIDING_WINDOW
+  requestsPerMinute Int           @default(60)
+  burstAllowance    Int           @default(15)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  events            UsageEvent[]
+  rollups           UsageRollup[]
+}
+
+model UsageEvent {
+  id        String   @id @default(uuid())
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  timestamp DateTime @default(now())
+  allowed   Boolean
+  algorithm String
+  latencyMs Float
+  reason    String?
+
+  @@index([tenantId, timestamp])
+}
+
+model UsageRollup {
+  id           String   @id @default(uuid())
+  tenantId     String
+  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  hourBucket   DateTime
+  allowedCount Int      @default(0)
+  deniedCount  Int      @default(0)
+  avgLatencyMs Float    @default(0.0)
+
+  @@unique([tenantId, hourBucket])
+  @@index([tenantId, hourBucket])
+}

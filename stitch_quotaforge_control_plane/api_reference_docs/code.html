@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>API Documentation - QuotaForge</title>
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f8f9fb",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary": "#585e6c",
+                        "tertiary-fixed": "#ffdcc6",
+                        "inverse-surface": "#2e3132",
+                        "on-secondary-fixed-variant": "#414754",
+                        "secondary-fixed": "#dde2f3",
+                        "primary-fixed": "#d8e2ff",
+                        "secondary-fixed-dim": "#c1c6d7",
+                        "on-secondary-fixed": "#161c27",
+                        "primary-container": "#2170e4",
+                        "on-background": "#191c1e",
+                        "on-tertiary-container": "#fffbff",
+                        "background": "#f8f9fb",
+                        "outline": "#727785",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#edeef0",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#fefcff",
+                        "secondary-container": "#dde2f3",
+                        "on-primary-fixed-variant": "#004395",
+                        "on-surface": "#191c1e",
+                        "surface-dim": "#d9dadc",
+                        "surface-container-highest": "#e1e2e4",
+                        "outline-variant": "#c2c6d6",
+                        "on-secondary-container": "#5e6473",
+                        "on-tertiary-fixed": "#311400",
+                        "surface-container-high": "#e7e8ea",
+                        "primary": "#0058be",
+                        "surface": "#f8f9fb",
+                        "inverse-on-surface": "#f0f1f3",
+                        "inverse-primary": "#adc6ff",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#b75b00",
+                        "on-primary-fixed": "#001a42",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "tertiary": "#924700",
+                        "surface-variant": "#e1e2e4",
+                        "surface-tint": "#005ac2",
+                        "primary-fixed-dim": "#adc6ff",
+                        "on-surface-variant": "#424754",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-md": "16px",
+                        "container-padding": "24px",
+                        "unit": "4px",
+                        "nav-height": "64px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Geist"],
+                        "mono-base": ["Geist Mono"],
+                        "body-base": ["Inter"],
+                        "mono-sm": ["Geist Mono"],
+                        "headline-md": ["Geist"],
+                        "label-caps": ["Geist"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "mono-base": ["13px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-base": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "mono-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Syntax highlighting utility classes for dark theme code block */
+        .token-key { @apply text-inverse-primary; }
+        .token-string { @apply text-tertiary-fixed-dim; }
+        .token-punctuation { @apply text-secondary-fixed-dim; }
+        .token-keyword { @apply text-primary-fixed-dim; }
+        .token-boolean { @apply text-tertiary-fixed; }
+        
+        /* Custom scrollbar for code blocks */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            @apply bg-on-secondary-fixed-variant rounded-full;
+        }
+    </style>
+</head>
+<body class="bg-surface-bright text-on-surface antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-nav-height bg-surface-container-lowest border-b border-outline-variant flat no-shadows">
+<div class="flex items-center gap-8 h-full">
+<div class="font-headline-md text-headline-md font-bold text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dataset</span>
+                QuotaForge
+            </div>
+<div class="hidden md:flex items-center h-full space-x-6">
+<!-- Navigation links from JSON. None are 'active' as this is a sub-page (Documentation). -->
+<a class="text-secondary hover:text-on-surface h-full flex items-center font-label-caps text-label-caps hover:bg-surface-container-low transition-colors px-2" href="#">Overview</a>
+<a class="text-secondary hover:text-on-surface h-full flex items-center font-label-caps text-label-caps hover:bg-surface-container-low transition-colors px-2" href="#">Traffic</a>
+<a class="text-secondary hover:text-on-surface h-full flex items-center font-label-caps text-label-caps hover:bg-surface-container-low transition-colors px-2" href="#">Tenants</a>
+<a class="text-secondary hover:text-on-surface h-full flex items-center font-label-caps text-label-caps hover:bg-surface-container-low transition-colors px-2" href="#">Policies</a>
+<a class="text-secondary hover:text-on-surface h-full flex items-center font-label-caps text-label-caps hover:bg-surface-container-low transition-colors px-2" href="#">Usage</a>
+<a class="text-secondary hover:text-on-surface h-full flex items-center font-label-caps text-label-caps hover:bg-surface-container-low transition-colors px-2" href="#">Events</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<!-- Trailing Secondary Action -->
+<button class="font-label-caps text-label-caps text-on-surface border border-outline-variant rounded px-3 py-1.5 hover:bg-surface-container-low transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">menu_book</span>
+                Documentation
+            </button>
+<div class="flex items-center gap-2 text-secondary">
+<button aria-label="settings" class="p-1 hover:bg-surface-container-low hover:text-on-surface rounded transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button aria-label="notifications" class="p-1 hover:bg-surface-container-low hover:text-on-surface rounded transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+<div class="w-8 h-8 rounded border border-outline-variant overflow-hidden cursor-pointer">
+<img alt="User profile menu" class="w-full h-full object-cover" data-alt="A highly professional, minimalist abstract avatar image featuring subtle geometric dark grey shapes on a light silver background. The lighting is studio-quality flat, emphasizing a clean, modern technological aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9bY349RkA6IzT3C1jl-BNcMDpibgEis6mPXIVMZ4wKO7PlTMYEiZtKWXMunNVHZgq2VOtWMWInEpHsozn0GZQNeOf65Eb4yLNao3MDlxsQug7A9JVp_6R4Elg2KozO0754sZhUxjUUruPowBRarfXFC1I1f2Ii70gnfYOiLcDXdmyd3JSrnt4VqWqIH31i5iqKoD-PUq4_B1lz_wWAdnSmO_4TL_WULS1zZ5TWSC0YrogHGj_Du6c"/>
+</div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-grow pt-[64px] pb-[48px] flex flex-col">
+<!-- Header & Sub-navigation -->
+<header class="bg-surface-container-lowest border-b border-outline-variant px-container-padding pt-8">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-6">API Reference</h1>
+<div class="flex gap-8 font-label-caps text-label-caps">
+<button class="text-primary border-b-2 border-primary pb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">api</span>
+                    Endpoints
+                </button>
+<button class="text-secondary hover:text-on-surface transition-colors border-b-2 border-transparent pb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">webhook</span>
+                    Webhooks
+                </button>
+<button class="text-secondary hover:text-on-surface transition-colors border-b-2 border-transparent pb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+                    Authentication
+                </button>
+<button class="text-secondary hover:text-on-surface transition-colors border-b-2 border-transparent pb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">error</span>
+                    Errors
+                </button>
+</div>
+</header>
+<!-- Two Column Layout -->
+<div class="flex-grow grid grid-cols-1 lg:grid-cols-12 max-w-[1600px] w-full mx-auto">
+<!-- Left Column: Documentation Content -->
+<div class="lg:col-span-7 px-container-padding py-10 space-y-12">
+<!-- Endpoint Header -->
+<section>
+<div class="flex items-center gap-3 mb-4">
+<span class="bg-surface-container text-on-surface border border-outline-variant font-mono-sm text-mono-sm px-2 py-1 rounded">POST</span>
+<h2 class="font-mono-base text-mono-base text-on-surface font-semibold">/v1/tenants</h2>
+</div>
+<p class="font-body-base text-body-base text-secondary max-w-2xl">
+                        Creates a new tenant securely isolated within the QuotaForge environment. This endpoint provisions initial routing rules, default rate limits, and an isolated configuration space.
+                    </p>
+</section>
+<hr class="border-t border-outline-variant"/>
+<!-- Authentication Requirement -->
+<section>
+<h3 class="font-label-caps text-label-caps text-on-surface mb-4">Authentication</h3>
+<div class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant rounded p-3">
+<span class="material-symbols-outlined text-secondary text-[18px]">key</span>
+<span class="font-body-base text-body-base text-on-surface">Bearer Token required. Requires <code class="font-mono-sm text-mono-sm bg-surface-container px-1 py-0.5 rounded text-primary">tenant:write</code> scope.</span>
+</div>
+</section>
+<!-- Parameters Table -->
+<section>
+<h3 class="font-label-caps text-label-caps text-on-surface mb-4">Body Parameters</h3>
+<div class="w-full overflow-x-auto">
+<table class="w-full border-collapse">
+<thead>
+<tr>
+<th class="border-b border-outline-variant py-2 text-left font-label-caps text-label-caps text-secondary font-normal w-1/3">Parameter</th>
+<th class="border-b border-outline-variant py-2 text-left font-label-caps text-label-caps text-secondary font-normal w-2/3">Description</th>
+</tr>
+</thead>
+<tbody class="font-mono-base text-mono-base">
+<!-- Row 1 -->
+<tr class="group">
+<td class="border-b border-outline-variant py-3 align-top">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-on-surface font-semibold">name</span>
+<span class="font-mono-sm text-mono-sm text-error bg-error-container/30 px-1.5 rounded">required</span>
+</div>
+<span class="font-mono-sm text-mono-sm text-secondary">string</span>
+</td>
+<td class="border-b border-outline-variant py-3 align-top text-secondary font-body-base text-body-base group-hover:text-on-surface transition-colors">
+                                        The unique identifier for the tenant. Must be alphanumeric, lowercase, and cannot contain spaces. Max 64 characters.
+                                    </td>
+</tr>
+<!-- Row 2 -->
+<tr class="group">
+<td class="border-b border-outline-variant py-3 align-top">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-on-surface font-semibold">tier</span>
+</div>
+<span class="font-mono-sm text-mono-sm text-secondary">string</span>
+</td>
+<td class="border-b border-outline-variant py-3 align-top text-secondary font-body-base text-body-base group-hover:text-on-surface transition-colors">
+                                        The subscription tier defining default quotas. Valid options are <code class="font-mono-sm bg-surface-container px-1 rounded">free</code>, <code class="font-mono-sm bg-surface-container px-1 rounded">pro</code>, or <code class="font-mono-sm bg-surface-container px-1 rounded">enterprise</code>. Defaults to <code class="font-mono-sm bg-surface-container px-1 rounded">free</code>.
+                                    </td>
+</tr>
+<!-- Row 3 -->
+<tr class="group">
+<td class="border-b border-outline-variant py-3 align-top border-none">
+<div class="flex items-center gap-2 mb-1">
+<span class="text-on-surface font-semibold">metadata</span>
+</div>
+<span class="font-mono-sm text-mono-sm text-secondary">object</span>
+</td>
+<td class="border-b border-outline-variant py-3 align-top text-secondary font-body-base text-body-base group-hover:text-on-surface transition-colors border-none">
+                                        Up to 20 key-value pairs for attaching custom data to the tenant object. Keys must be strings under 40 characters.
+                                    </td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<hr class="border-t border-outline-variant"/>
+<!-- Returns -->
+<section>
+<h3 class="font-label-caps text-label-caps text-on-surface mb-4">Returns</h3>
+<p class="font-body-base text-body-base text-secondary mb-4">
+                        Returns a <a class="text-primary hover:underline" href="#">tenant object</a> if the creation succeeds.
+                    </p>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+<span class="font-mono-sm text-mono-sm text-on-surface">201 Created</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#EF4444]"></span>
+<span class="font-mono-sm text-mono-sm text-secondary">400 Bad Request</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#EF4444]"></span>
+<span class="font-mono-sm text-mono-sm text-secondary">409 Conflict</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Code Blocks -->
+<div class="lg:col-span-5 bg-inverse-surface border-l border-on-secondary-fixed-variant lg:min-h-[calc(100vh-160px)]">
+<div class="sticky top-[96px] p-6 space-y-6">
+<!-- Request Block -->
+<div class="rounded border border-on-secondary-fixed-variant overflow-hidden bg-[#1e1e1e]">
+<div class="flex items-center justify-between bg-inverse-surface border-b border-on-secondary-fixed-variant px-4 py-2">
+<div class="flex gap-4">
+<button class="font-mono-sm text-mono-sm text-inverse-on-surface border-b-2 border-inverse-primary pb-1">cURL</button>
+<button class="font-mono-sm text-mono-sm text-secondary-fixed-dim hover:text-inverse-on-surface transition-colors pb-1 border-b-2 border-transparent">Node.js</button>
+<button class="font-mono-sm text-mono-sm text-secondary-fixed-dim hover:text-inverse-on-surface transition-colors pb-1 border-b-2 border-transparent">Python</button>
+</div>
+<button aria-label="Copy code" class="text-secondary-fixed-dim hover:text-inverse-on-surface transition-colors">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+<pre class="p-4 font-mono-sm text-mono-sm text-inverse-on-surface overflow-x-auto custom-scrollbar leading-relaxed"><code><span class="token-keyword">curl</span> <span class="token-string">-X</span> POST https://api.quotaforge.com/v1/tenants \
+  <span class="token-string">-H</span> <span class="token-string">"Authorization: Bearer qf_live_..."</span> \
+  <span class="token-string">-H</span> <span class="token-string">"Content-Type: application/json"</span> \
+  <span class="token-string">-d</span> <span class="token-string">'{
+    "name": "acme_corp",
+    "tier": "pro",
+    "metadata": {
+      "internal_id": "84729"
+    }
+  }'</span></code></pre>
+</div>
+<!-- Response Block -->
+<div class="rounded border border-on-secondary-fixed-variant overflow-hidden bg-[#1e1e1e]">
+<div class="flex items-center justify-between bg-inverse-surface border-b border-on-secondary-fixed-variant px-4 py-2">
+<div class="flex items-center gap-3">
+<span class="font-mono-sm text-mono-sm text-secondary-fixed-dim">RESPONSE</span>
+<span class="font-mono-sm text-mono-sm bg-[#10B981]/20 text-[#34D399] px-1.5 rounded">201</span>
+</div>
+<span class="font-mono-sm text-mono-sm text-secondary-fixed-dim">application/json</span>
+</div>
+<pre class="p-4 font-mono-sm text-mono-sm text-inverse-on-surface overflow-x-auto custom-scrollbar leading-relaxed"><code><span class="token-punctuation">{</span>
+  <span class="token-key">"id"</span><span class="token-punctuation">:</span> <span class="token-string">"tnt_01H4X..."</span><span class="token-punctuation">,</span>
+  <span class="token-key">"object"</span><span class="token-punctuation">:</span> <span class="token-string">"tenant"</span><span class="token-punctuation">,</span>
+  <span class="token-key">"name"</span><span class="token-punctuation">:</span> <span class="token-string">"acme_corp"</span><span class="token-punctuation">,</span>
+  <span class="token-key">"tier"</span><span class="token-punctuation">:</span> <span class="token-string">"pro"</span><span class="token-punctuation">,</span>
+  <span class="token-key">"status"</span><span class="token-punctuation">:</span> <span class="token-string">"active"</span><span class="token-punctuation">,</span>
+  <span class="token-key">"metadata"</span><span class="token-punctuation">:</span> <span class="token-punctuation">{</span>
+    <span class="token-key">"internal_id"</span><span class="token-punctuation">:</span> <span class="token-string">"84729"</span>
+  <span class="token-punctuation">}</span><span class="token-punctuation">,</span>
+  <span class="token-key">"created_at"</span><span class="token-punctuation">:</span> <span class="token-boolean">1689264812</span><span class="token-punctuation">,</span>
+  <span class="token-key">"updated_at"</span><span class="token-punctuation">:</span> <span class="token-boolean">1689264812</span>
+<span class="token-punctuation">}</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-40 flex items-center justify-between px-container-padding py-2 bg-surface-container-low border-t border-outline-variant flat no-shadows">
+<div class="font-label-caps text-label-caps text-on-surface-variant flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#10B981]"></span>
+            QuotaForge Infrastructure Health
+        </div>
+<div class="flex items-center gap-6 font-mono-sm text-mono-sm text-secondary">
+<!-- Footer Links rendered explicitly based on JSON content and styling keys -->
+<span class="hover:text-on-surface transition-opacity duration-150 flex items-center gap-1.5 cursor-default">
+                Redis: Healthy
+            </span>
+<span class="hover:text-on-surface transition-opacity duration-150 flex items-center gap-1.5 cursor-default">
+                Postgres: Healthy
+            </span>
+<span class="hover:text-on-surface transition-opacity duration-150 flex items-center gap-1.5 cursor-default">
+                Queue: Idle
+            </span>
+<span class="hover:text-on-surface transition-opacity duration-150 flex items-center gap-1.5 cursor-default">
+                Gateway: 12ms
+            </span>
+</div>
+</footer>
+</body></html>

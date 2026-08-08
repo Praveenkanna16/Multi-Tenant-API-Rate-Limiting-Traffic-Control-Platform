@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuotaForge - Traffic Replay</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;family=Geist+Mono:wght@400;500&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#ffdad6",
+                    "surface-bright": "#f8f9fb",
+                    "surface-container-low": "#f2f4f6",
+                    "secondary": "#585e6c",
+                    "tertiary-fixed": "#ffdcc6",
+                    "inverse-surface": "#2e3132",
+                    "on-secondary-fixed-variant": "#414754",
+                    "secondary-fixed": "#dde2f3",
+                    "primary-fixed": "#d8e2ff",
+                    "secondary-fixed-dim": "#c1c6d7",
+                    "on-secondary-fixed": "#161c27",
+                    "primary-container": "#2170e4",
+                    "on-background": "#191c1e",
+                    "on-tertiary-container": "#fffbff",
+                    "background": "#f8f9fb",
+                    "outline": "#727785",
+                    "on-error-container": "#93000a",
+                    "surface-container": "#edeef0",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-container": "#fefcff",
+                    "secondary-container": "#dde2f3",
+                    "on-primary-fixed-variant": "#004395",
+                    "on-surface": "#191c1e",
+                    "surface-dim": "#d9dadc",
+                    "surface-container-highest": "#e1e2e4",
+                    "outline-variant": "#c2c6d6",
+                    "on-secondary-container": "#5e6473",
+                    "on-tertiary-fixed": "#311400",
+                    "surface-container-high": "#e7e8ea",
+                    "primary": "#0058be",
+                    "surface": "#f8f9fb",
+                    "inverse-on-surface": "#f0f1f3",
+                    "inverse-primary": "#adc6ff",
+                    "on-tertiary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#b75b00",
+                    "on-primary-fixed": "#001a42",
+                    "tertiary-fixed-dim": "#ffb786",
+                    "on-tertiary-fixed-variant": "#723600",
+                    "tertiary": "#924700",
+                    "surface-variant": "#e1e2e4",
+                    "surface-tint": "#005ac2",
+                    "primary-fixed-dim": "#adc6ff",
+                    "on-surface-variant": "#424754",
+                    "error": "#ba1a1a",
+                    "on-secondary": "#ffffff",
+                    "on-error": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "container-padding": "24px",
+                    "unit": "4px",
+                    "nav-height": "64px",
+                    "stack-sm": "8px",
+                    "stack-lg": "32px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg": [
+                            "Geist"
+                    ],
+                    "mono-base": [
+                            "Geist Mono"
+                    ],
+                    "body-base": [
+                            "Inter"
+                    ],
+                    "mono-sm": [
+                            "Geist Mono"
+                    ],
+                    "headline-md": [
+                            "Geist"
+                    ],
+                    "label-caps": [
+                            "Geist"
+                    ],
+                    "body-sm": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "headline-lg": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "mono-base": [
+                            "13px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "body-base": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "mono-sm": [
+                            "11px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-md": [
+                            "18px",
+                            {
+                                    "lineHeight": "24px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-caps": [
+                            "11px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "18px",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .flat-surface {
+            background-color: theme('colors.surface-container-lowest');
+            border: 1px solid theme('colors.surface-variant');
+        }
+        .data-divider {
+            border-bottom: 1px solid theme('colors.surface-variant');
+        }
+        .flow-line {
+            height: 1px;
+            background: theme('colors.outline-variant');
+            position: relative;
+        }
+        .flow-line::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -3px;
+            border-left: 6px solid theme('colors.outline-variant');
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-base min-h-screen pt-nav-height pb-16">
+<!-- TopNavBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding h-nav-height bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant dark:border-outline">
+<div class="flex items-center h-full">
+<span class="font-headline-md text-headline-md font-bold text-on-surface dark:text-inverse-on-surface mr-container-padding">QuotaForge</span>
+<div class="hidden md:flex h-full gap-container-padding">
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface h-full flex items-center hover:bg-surface-container-low dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:opacity-80 font-label-caps text-label-caps px-2" href="#">Overview</a>
+<a class="text-primary dark:text-primary-fixed border-b-2 border-primary dark:border-primary-fixed h-full flex items-center hover:bg-surface-container-low dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:opacity-80 font-label-caps text-label-caps px-2" href="#">Traffic</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface h-full flex items-center hover:bg-surface-container-low dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:opacity-80 font-label-caps text-label-caps px-2" href="#">Tenants</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface h-full flex items-center hover:bg-surface-container-low dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:opacity-80 font-label-caps text-label-caps px-2" href="#">Policies</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface h-full flex items-center hover:bg-surface-container-low dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:opacity-80 font-label-caps text-label-caps px-2" href="#">Usage</a>
+<a class="text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface h-full flex items-center hover:bg-surface-container-low dark:hover:bg-on-secondary-fixed-variant transition-colors cursor-pointer active:opacity-80 font-label-caps text-label-caps px-2" href="#">Events</a>
+</div>
+</div>
+<div class="flex items-center gap-stack-md">
+<button class="font-label-caps text-label-caps text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface transition-colors cursor-pointer">Documentation</button>
+<span class="material-symbols-outlined text-secondary dark:text-secondary-fixed-dim cursor-pointer hover:text-on-surface">settings</span>
+<span class="material-symbols-outlined text-secondary dark:text-secondary-fixed-dim cursor-pointer hover:text-on-surface">notifications</span>
+</div>
+</nav>
+<main class="max-w-[1440px] mx-auto px-container-padding py-stack-lg">
+<!-- Header -->
+<header class="mb-stack-lg">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-unit">Traffic replay</h1>
+<p class="font-body-base text-body-base text-secondary">Replay recorded traffic patterns against the gateway and observe rate-limit behavior.</p>
+</header>
+<!-- Controls Bento -->
+<section class="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-stack-lg">
+<div class="flat-surface p-container-padding md:col-span-12 flex flex-col md:flex-row gap-container-padding items-start md:items-end rounded">
+<div class="flex-1 w-full">
+<label class="block font-label-caps text-label-caps text-secondary mb-unit">Traffic File</label>
+<div class="flex">
+<input class="flex-1 border border-outline-variant rounded-l px-3 py-2 font-mono-base text-mono-base text-on-surface focus:outline-none focus:border-primary bg-surface-bright" readonly="" type="text" value="production_dump_20231027.json"/>
+<button class="bg-surface-container-high text-on-surface px-4 py-2 rounded-r border-y border-r border-outline-variant font-label-caps text-label-caps hover:bg-surface-variant transition-colors">Upload</button>
+</div>
+</div>
+<div class="flex-1 w-full">
+<label class="block font-label-caps text-label-caps text-secondary mb-unit">Scenario Select</label>
+<select class="w-full border border-outline-variant rounded px-3 py-2 font-body-base text-body-base text-on-surface focus:outline-none focus:border-primary bg-surface-bright">
+<option>Normal (Baseline)</option>
+<option>Sustained High Load</option>
+<option>Burst (Spike)</option>
+<option selected="">Quota Exhaustion</option>
+</select>
+</div>
+<div class="flex-1 w-full flex items-end gap-stack-md justify-end">
+<div class="flex bg-surface-container border border-outline-variant rounded">
+<button class="px-3 py-1 font-mono-sm text-mono-sm text-secondary hover:text-on-surface border-r border-outline-variant">1x</button>
+<button class="px-3 py-1 font-mono-sm text-mono-sm text-primary bg-primary-container/10 border-r border-outline-variant">5x</button>
+<button class="px-3 py-1 font-mono-sm text-mono-sm text-secondary hover:text-on-surface">10x</button>
+</div>
+<div class="flex gap-unit">
+<button class="w-10 h-10 rounded border border-outline-variant flex items-center justify-center bg-surface-bright hover:bg-surface-variant transition-colors text-secondary">
+<span class="material-symbols-outlined">replay</span>
+</button>
+<button class="h-10 px-6 rounded bg-on-secondary-fixed text-on-primary font-label-caps text-label-caps hover:bg-on-surface transition-colors flex items-center gap-unit">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+                            Start Replay
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Live Metrics -->
+<section class="grid grid-cols-2 md:grid-cols-5 gap-gutter mb-stack-lg">
+<div class="flat-surface p-stack-md rounded">
+<span class="block font-label-caps text-label-caps text-secondary mb-unit">Requests Sent</span>
+<span class="block font-mono-base text-headline-lg text-on-surface">12,481</span>
+</div>
+<div class="flat-surface p-stack-md rounded">
+<span class="block font-label-caps text-label-caps text-secondary mb-unit">Allowed</span>
+<span class="block font-mono-base text-headline-lg text-on-surface">10,920</span>
+</div>
+<div class="flat-surface p-stack-md rounded">
+<span class="block font-label-caps text-label-caps text-error mb-unit">Blocked (429)</span>
+<span class="block font-mono-base text-headline-lg text-error">1,561</span>
+</div>
+<div class="flat-surface p-stack-md rounded">
+<span class="block font-label-caps text-label-caps text-secondary mb-unit">Peak RPS</span>
+<span class="block font-mono-base text-headline-lg text-on-surface">1,284</span>
+</div>
+<div class="flat-surface p-stack-md rounded">
+<span class="block font-label-caps text-label-caps text-secondary mb-unit">P95 Latency</span>
+<span class="block font-mono-base text-headline-lg text-on-surface">4.2ms</span>
+</div>
+<div class="md:col-span-5 flat-surface p-stack-md rounded bg-primary-container/5 border-primary-container/20 flex items-center gap-stack-md">
+<span class="flex h-8 w-8 rounded-full bg-primary-container/20 items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+</span>
+<div>
+<span class="block font-label-caps text-label-caps text-primary">Correctness Indicator</span>
+<span class="block font-headline-md text-headline-md text-on-surface">Quota Violations: 0</span>
+</div>
+<div class="ml-auto">
+<span class="font-mono-sm text-mono-sm text-secondary bg-surface-container px-2 py-1 rounded">System is correctly enforcing limits.</span>
+</div>
+</div>
+</section>
+<!-- Flow Visualization -->
+<section class="flat-surface rounded p-container-padding">
+<h2 class="font-label-caps text-label-caps text-secondary mb-stack-lg">Flow Visualization (Real-time)</h2>
+<div class="flex flex-col md:flex-row items-stretch justify-between gap-container-padding relative min-h-[300px]">
+<!-- Left: Clients -->
+<div class="flex-1 flex flex-col gap-stack-sm relative z-10">
+<h3 class="font-mono-sm text-mono-sm text-secondary mb-unit text-center">Clients (Traffic Source)</h3>
+<div class="flat-surface p-stack-sm rounded flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-on-surface">Acme Corp</span>
+<span class="font-mono-sm text-mono-sm bg-surface-container px-1 rounded text-secondary">340 req/s</span>
+</div>
+<div class="flat-surface p-stack-sm rounded border-primary bg-primary-container/5 flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Northstar Inc</span>
+<span class="font-mono-sm text-mono-sm bg-primary-container text-on-primary px-1 rounded">890 req/s (Burst)</span>
+</div>
+<div class="flat-surface p-stack-sm rounded flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-on-surface">Globex</span>
+<span class="font-mono-sm text-mono-sm bg-surface-container px-1 rounded text-secondary">42 req/s</span>
+</div>
+<div class="flat-surface p-stack-sm rounded flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-on-surface">Initech</span>
+<span class="font-mono-sm text-mono-sm bg-surface-container px-1 rounded text-secondary">12 req/s</span>
+</div>
+</div>
+<!-- Connectors 1 -->
+<div class="hidden md:flex flex-col justify-center px-stack-md w-16 relative z-0">
+<div class="flow-line w-full"></div>
+</div>
+<!-- Middle: Gateway -->
+<div class="flex-[2] flat-surface border-2 border-outline-variant rounded p-stack-md flex flex-col items-center justify-center relative z-10 bg-surface-bright">
+<h3 class="font-label-caps text-label-caps text-on-surface mb-stack-sm">QuotaForge Gateway</h3>
+<div class="flex flex-col w-full gap-stack-sm">
+<div class="flex justify-between items-center bg-surface p-2 rounded border border-surface-variant">
+<span class="font-mono-sm text-mono-sm text-secondary">1. Request Ingress</span>
+<span class="material-symbols-outlined text-secondary text-[16px]">login</span>
+</div>
+<div class="flex justify-between items-center bg-surface p-2 rounded border border-surface-variant">
+<span class="font-mono-sm text-mono-sm text-secondary">2. API Key Valid</span>
+<span class="material-symbols-outlined text-primary text-[16px]">vpn_key</span>
+</div>
+<div class="flex justify-between items-center bg-surface p-2 rounded border border-surface-variant">
+<span class="font-mono-sm text-mono-sm text-secondary">3. Redis Quota Check</span>
+<span class="font-mono-sm text-mono-sm text-on-surface">0.8ms</span>
+</div>
+<div class="flex justify-between items-center p-2 rounded border border-error bg-error-container/20">
+<span class="font-mono-sm text-mono-sm text-error">4. Decision: Rate Limit (Northstar)</span>
+<span class="material-symbols-outlined text-error text-[16px]">block</span>
+</div>
+</div>
+</div>
+<!-- Connectors 2 -->
+<div class="hidden md:flex flex-col justify-center px-stack-md w-16 relative z-0">
+<div class="flow-line w-full"></div>
+</div>
+<!-- Right: Protected API -->
+<div class="flex-1 flex flex-col justify-center relative z-10">
+<h3 class="font-mono-sm text-mono-sm text-secondary mb-unit text-center">Protected API</h3>
+<div class="flat-surface p-container-padding rounded border-primary bg-surface-bright text-center">
+<span class="material-symbols-outlined text-primary text-4xl mb-unit">dns</span>
+<div class="font-body-base text-body-base text-on-surface font-medium">Upstream Services</div>
+<div class="font-mono-sm text-mono-sm text-secondary mt-stack-sm">
+<div class="flex items-center justify-center gap-1"><span class="w-2 h-2 rounded-full bg-primary"></span> Load: Safe</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-40 flex items-center justify-between px-container-padding py-2 bg-surface-container-low dark:bg-surface-container-high border-t border-outline-variant dark:border-outline">
+<span class="font-label-caps text-label-caps text-on-surface-variant">QuotaForge Infrastructure Health</span>
+<div class="flex gap-stack-md">
+<span class="font-mono-sm text-mono-sm text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface transition-opacity duration-150 cursor-pointer">Redis: Healthy</span>
+<span class="font-mono-sm text-mono-sm text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface transition-opacity duration-150 cursor-pointer">Postgres: Healthy</span>
+<span class="font-mono-sm text-mono-sm text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface transition-opacity duration-150 cursor-pointer">Queue: Idle</span>
+<span class="font-mono-sm text-mono-sm text-secondary dark:text-secondary-fixed-dim hover:text-on-surface dark:hover:text-inverse-on-surface transition-opacity duration-150 cursor-pointer">Gateway: 12ms</span>
+</div>
+</footer>
+</body></html>
